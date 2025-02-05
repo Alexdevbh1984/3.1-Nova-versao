@@ -7,16 +7,15 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: url('../background.jpg') no-repeat center center fixed;
+  background: url('../css/engineer-2558705_1280.jpg') no-repeat center center fixed;
   background-size: cover;
   padding: 20px;
 }
 
-/* Para melhorar a legibilidade, adicionamos uma camada semitransparente no container */
 .container {
   width: 100%;
   max-width: 600px;
-  background: rgb(43 211 190 / 95%);; /* branco com leve transparência */
+  background: rgba(219, 119, 119, 0.95);
   margin: 0 auto;
   padding: 20px;
   border-radius: 8px;
