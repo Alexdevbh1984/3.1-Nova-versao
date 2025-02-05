@@ -1,169 +1,79 @@
 /* Reset básico */
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
-/* Fonte moderna */
 body {
-  font-family: 'Poppins', sans-serif;
-  background: url('engineer-2558705_1280.jpg') no-repeat center center fixed; /* Imagem de fundo */
+  font-family: Arial, sans-serif;
+  background: url('../background.jpg') no-repeat center center fixed;
   background-size: cover;
-  color: #fff;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 20px;
 }
 
-/* Camada escura sobre a imagem */
-.background {
-  background: rgba(0, 0, 0, 0.7);
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Container principal */
+/* Para melhorar a legibilidade, adicionamos uma camada semitransparente no container */
 .container {
+  width: 100%;
   max-width: 600px;
-  margin: auto;
-  background: #1e1e1e; /* Fundo escuro */
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
-  text-align: center;
+  background: rgb(43 211 190 / 95%);; /* branco com leve transparência */
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
-/* Título */
 h1 {
-  font-size: 2rem;
+  text-align: center;
   margin-bottom: 20px;
-  color: #00bcd4; /* Azul ciano para destacar o título */
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* Labels */
 label {
   display: block;
   margin-top: 15px;
-  font-weight: bold;
-  color: #ccc;
 }
 
-/* Inputs e Selects */
-input, select {
+input[type="number"],
+select {
   width: 100%;
-  padding: 12px;
-  margin-top: 8px;
-  margin-bottom: 15px;
-  border: none;
-  border-radius: 6px;
-  background: #2e2e2e; /* Fundo escuro para inputs */
-  color: #fff;
-  font-size: 1rem;
-  transition: background 0.3s ease;
+  padding: 8px;
+  margin-top: 5px;
 }
 
-input:focus, select:focus {
-  background: #3e3e3e; /* Fundo mais claro ao focar */
-  outline: none;
-}
-
-/* Botão */
-button {
-  background: linear-gradient(135deg, #00bcd4, #0097a7); /* Gradiente azul ciano */
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  margin-top: 20px;
-}
-
-button:hover {
-  background: linear-gradient(135deg, #0097a7, #00bcd4); /* Inverte o gradiente ao passar o mouse */
-  transform: translateY(-2px); /* Efeito de levantar */
-}
-
-button:active {
-  transform: translateY(0); /* Retorna ao normal ao clicar */
-}
-
-/* Resultado */
-.result {
-  margin-top: 20px;
-  padding: 15px;
-  background: #2e2e2e; /* Fundo escuro para o resultado */
-  border-radius: 8px;
-  text-align: left;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.result.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.result p {
-  margin-bottom: 10px;
-  color: #ccc;
-}
-
-/* Componentes (Checkboxes) */
-.componentes {
-  margin-top: 15px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.componentes div {
-  background: #2e2e2e;
-  padding: 10px;
-  border-radius: 6px;
-  transition: background 0.3s ease;
-}
-
-.componentes div:hover {
-  background: #3e3e3e;
+.componentes > div {
+  margin-top: 10px;
 }
 
 .componentes label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #ccc;
+  display: block;
+  margin: 5px 0;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  width: 100%;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
 }
 
-.componentes input[type="checkbox"] {
-  width: auto;
-  margin: 0;
+button:hover {
+  background-color: #0056b3;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-  .container {
-      padding: 20px;
-  }
+.result {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #007BFF;
+  border-radius: 4px;
+  background-color: #e7f1ff;
+}
 
-  h1 {
-      font-size: 1.5rem;
-  }
-
-  input, select, button {
-      font-size: 0.9rem;
-  }
-
-  .componentes {
-      grid-template-columns: 1fr;
-  }
+#detalhes {
+  margin-top: 15px;
+  font-size: 0.9em;
+  line-height: 1.4em;
 }

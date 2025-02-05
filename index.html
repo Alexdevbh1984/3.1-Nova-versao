@@ -7,80 +7,69 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="background">
-    <div class="container">
-      <h1>Calculadora de Perdas de Sinal HFC</h1>
+  <div class="container">
+    <h1>Calculadora de Perdas de Sinal HFC</h1>
 
-      <label for="tx">Sinal TX Inicial (dBmV):</label>
-      <input type="number" id="tx" placeholder="Ex: 31">
+    <label for="tap">Selecione o Tap:</label>
+    <select id="tap">
+      <option value="23" data-tx="40" data-rx="19">Tap 23 (TX: 40 dBmV, RX: 19 dBmV)</option>
+      <option value="20" data-tx="39" data-rx="20">Tap 20 (TX: 39 dBmV, RX: 20 dBmV)</option>
+      <option value="17" data-tx="38" data-rx="16">Tap 17 (TX: 38 dBmV, RX: 16 dBmV)</option>
+    </select>
 
-      <label for="rx">Sinal RX Inicial (dBmV):</label>
-      <input type="number" id="rx" placeholder="Ex: 20">
+    <label for="frequencia">Frequência (MHz):</label>
+    <input type="number" id="frequencia" placeholder="Ex: 50" min="5" max="999">
+    <p id="erro-frequencia" style="color: red; display: none;">Frequência deve estar entre 5 MHz e 999 MHz.</p>
 
-      <label for="frequencia">Frequência (MHz):</label>
-      <input type="number" id="frequencia" placeholder="Ex: 105 a 999">
-      <p id="erro-frequencia" style="color: red; display: none;">A frequência deve estar entre 1.90 MHz e 1000 MHz.</p>
+    <label for="cabos">Comprimento do Cabo (metros):</label>
+    <input type="number" id="cabos" placeholder="Ex: 50">
 
-      <label for="cabos">Comprimento Total de Cabo (metros):</label>
-      <input type="number" id="cabos" placeholder="Ex: 50">
+    <label for="tipo-cabo">Tipo de Cabo:</label>
+    <select id="tipo-cabo">
+      <option value="rg6">RG-6</option>
+      <option value="rg11">RG-11</option>
+    </select>
 
-      <label for="tipo-cabo">Tipo de Cabo:</label>
-      <select id="tipo-cabo">
-        <option value="rg6">RG-6</option>
-        <option value="rg11">RG-11</option>
-      </select>
-
-      <label>Componentes:</label>
-      <div class="componentes">
-        <div>
-          <label>
-            <input type="checkbox" value="dc6-tap" class="componente"> DC6 (Tap: +6 dB TX, -6 dB RX)
-          </label>
-          <label>
-            <input type="checkbox" value="dc6-livre" class="componente"> DC6 (Livre: +2.5 dB TX, -2.5 dB RX)
-          </label>
-        </div>
-        <div>
-          <label>
-            <input type="checkbox" value="dc9-tap" class="componente"> DC9 (Tap: +9 dB TX, -9 dB RX)
-          </label>
-          <label>
-            <input type="checkbox" value="dc9-livre" class="componente"> DC9 (Livre: +1.5 dB TX, -1.5 dB RX)
-          </label>
-        </div>
-        <div>
-          <label>
-            <input type="checkbox" value="dc12-tap" class="componente"> DC12 (Tap: +12 dB TX, -12 dB RX)
-          </label>
-          <label>
-            <input type="checkbox" value="dc12-livre" class="componente"> DC12 (Livre: +0.5 dB TX, -0.5 dB RX)
-          </label>
-        </div>
-        <div>
-          <label>
-            <input type="checkbox" value="dsv4" class="componente"> DSV4 (Divisor: +7 dB TX, -7 dB RX)
-          </label>
-        </div>
-        <div>
-          <label>
-            <input type="checkbox" value="dsv3" class="componente"> DSV3 (Divisor: +5 dB TX, -5 dB RX)
-          </label>
-        </div>
-        <div>
-          <label>
-            <input type="checkbox" value="desbalanciado" class="componente"> Desbalanceado (Divisor: +3.5 dB TX, -7.5 dB RX)
-          </label>
-        </div>
+    <label>Componentes:</label>
+    <div class="componentes">
+      <div>
+        <label>
+          <input type="checkbox" value="dc6-tap" class="componente"> DC6 (Tap: +6 dB TX, -6 dB RX)
+        </label>
+        <label>
+          <input type="checkbox" value="dc6-livre" class="componente"> DC6 (Livre: +2.5 dB TX, -2.5 dB RX)
+        </label>
       </div>
-
-      <button onclick="calcularPerdas()">Calcular</button>
-
-      <div id="resultado" class="result" style="display: none;">
-        <strong>Resultado:</strong>
-        <p id="txFinal"></p>
-        <p id="rxFinal"></p>
-        <p id="detalhes"></p>
+      <div>
+        <label>
+          <input type="checkbox" value="dc9-tap" class="componente"> DC9 (Tap: +9 dB TX, -9 dB RX)
+        </label>
+        <label>
+          <input type="checkbox" value="dc9-livre" class="componente"> DC9 (Livre: +1.5 dB TX, -1.5 dB RX)
+        </label>
       </div>
+      <div>
+        <label>
+          <input type="checkbox" value="dc12-tap" class="componente"> DC12 (Tap: +12 dB TX, -12 dB RX)
+        </label>
+        <label>
+          <input type="checkbox" value="dc12-livre" class="componente"> DC12 (Livre: +0.5 dB TX, -0.5 dB RX)
+        </label>
+      </div>
+      <div>
+        <label>
+          <input type="checkbox" value="dsv4" class="componente"> DSV4 (Divisor: +7 dB TX, -7 dB RX)
+        </label>
+      </div>
+    </div>
+
+    <button id="btnCalcular">Calcular</button>
+
+    <div id="resultado" class="result" style="display: none;">
+      <strong>Resultado:</strong>
+      <p id="txFinal"></p>
+      <p id="rxFinal"></p>
+      <div id="detalhes"></div>
     </div>
   </div>
 
