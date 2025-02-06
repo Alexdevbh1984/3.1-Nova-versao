@@ -67,6 +67,7 @@ function calcularPerdas() {
       "dc9-livre": { tx: 1.5, rx: -1.5 },
       "dc12-tap": { tx: 12, rx: -12 },
       "dc12-livre": { tx: 0.5, rx: -0.5 },
+      "dsv2": { tx: 3.5, rx: 3.5 },
       "dsv4": { tx: 7, rx: -7 }
     };
     const ajuste = perdas[comp.value];
