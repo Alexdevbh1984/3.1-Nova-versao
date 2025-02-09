@@ -1,10 +1,32 @@
+let manualMode = false; // Variável para controlar o modo (false = TAP, true = Manual)
+
 // Aguarda o carregamento completo do DOM e inicializa os eventos
 document.addEventListener("DOMContentLoaded", () => {
   atualizarValores();
   document.getElementById("btnCalcular").addEventListener("click", calcularPerdas);
+  document.getElementById("toggleModeButton").addEventListener("click", toggleMode);
 });
 
-// Atualiza os valores iniciais (TX e RX) com base no TAP selecionado
+// Função para alternar entre modo TAP e modo Manual
+const toggleMode = () => {
+  manualMode = !manualMode;
+  const tapSection = document.getElementById("tapSection");
+  const manualSection = document.getElementById("manualSection");
+  const toggleBtn = document.getElementById("toggleModeButton");
+  
+  if (manualMode) {
+    tapSection.style.display = "none";
+    manualSection.style.display = "block";
+    toggleBtn.textContent = "Usar Modo TAP";
+  } else {
+    tapSection.style.display = "block";
+    manualSection.style.display = "none";
+    toggleBtn.textContent = "Usar Modo Manual";
+    atualizarValores(); // Atualiza os valores com base no TAP
+  }
+};
+
+// Atualiza os valores iniciais (TX e RX) com base no TAP selecionado (apenas para modo TAP)
 const atualizarValores = () => {
   const tapElem = document.getElementById("tap");
   if (!tapElem) return;
@@ -16,23 +38,35 @@ const atualizarValores = () => {
 
 // Função principal para calcular as perdas
 const calcularPerdas = () => {
-  const tapElem = document.getElementById("tap");
-  if (!tapElem) {
-    console.error("Elemento #tap não encontrado!");
-    return;
-  }
-  const selectedOption = tapElem.selectedOptions[0];
-  if (!selectedOption) {
-    console.error("Nenhuma opção selecionada no TAP!");
-    return;
-  }
-  
-  // Valores iniciais do TAP
-  let tx = parseFloat(selectedOption.getAttribute("data-tx"));
-  let rx = parseFloat(selectedOption.getAttribute("data-rx"));
+  let tx, rx;
   const detalhesArray = []; // Armazena os detalhes do cálculo
+
+  // Se estiver em modo Manual, pega os valores dos inputs manuais;
+  // caso contrário, usa os valores do TAP selecionado.
+  if (manualMode) {
+    tx = parseFloat(document.getElementById("tx_manual").value);
+    rx = parseFloat(document.getElementById("rx_manual").value);
+    if (isNaN(tx) || isNaN(rx)) {
+      alert("Por favor, insira valores válidos para TX e RX.");
+      return;
+    }
+    detalhesArray.push(`Valores manuais: TX = ${tx} dBmV, RX = ${rx} dBmV`);
+  } else {
+    const tapElem = document.getElementById("tap");
+    if (!tapElem) {
+      console.error("Elemento #tap não encontrado!");
+      return;
+    }
+    const selectedOption = tapElem.selectedOptions[0];
+    if (!selectedOption) {
+      console.error("Nenhuma opção selecionada no TAP!");
+      return;
+    }
+    tx = parseFloat(selectedOption.getAttribute("data-tx"));
+    rx = parseFloat(selectedOption.getAttribute("data-rx"));
+  }
   
-  // Captura dos inputs do usuário
+  // Captura dos demais inputs do usuário
   const frequencia = parseFloat(document.getElementById("frequencia").value);
   const cabos = parseFloat(document.getElementById("cabos").value);
   const tipoCabo = document.getElementById("tipo-cabo").value;
@@ -82,7 +116,7 @@ const calcularPerdas = () => {
     }
   });
   
-  // Verificação das faixas válidas e alteração da cor dos textos
+  // Verificação das faixas válidas e alteração da cor dos textos:
   // Se estiver dentro do padrão, o texto fica verde; caso contrário, fica vermelho.
   if (tx < 38 || tx > 51) {
     document.getElementById("txFinal").style.color = "red";
@@ -107,11 +141,9 @@ const calcularPerdas = () => {
   // Define a animação com base na verificação das faixas válidas
   const animationElem = document.getElementById("animation");
   if (tx >= 38 && tx <= 51 && rx >= -12 && rx <= 12) {
-    // Sinal dentro do padrão: animação feliz
     animationElem.innerHTML = "😄";
     animationElem.className = "happy";
   } else {
-    // Sinal fora do padrão: animação triste
     animationElem.innerHTML = "😢";
     animationElem.className = "sad";
   }
@@ -151,6 +183,5 @@ const calcularPerdaCabo = (frequencia, tipoCabo) => {
       freqMaisProxima = f;
     }
   }
-  // Converte o valor de dB/100m para dB/m
   return atenuacao[tipoCabo][freqMaisProxima] / 100;
 };

@@ -1,28 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora de Perdas de Sinal HFC</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
   <div class="container">
     <h1>Calculadora de Perdas de Sinal HFC</h1>
-
-    <label for="tap">Selecione o Tap:</label>
-    <select id="tap">
-      <option value="23" data-tx="40" data-rx="19">Tap 23 (TX: 40 dBmV, RX: 19 dBmV)</option>
-      <option value="20" data-tx="39" data-rx="20">Tap 20 (TX: 39 dBmV, RX: 20 dBmV)</option>
-      <option value="17" data-tx="38" data-rx="16">Tap 17 (TX: 38 dBmV, RX: 16 dBmV)</option>
-      <option value="14" data-tx="40" data-rx="19">Tap 14  (TX: 40 dBmV, RX: 19 dBmV)</option>
-      <option value="11" data-tx="39" data-rx="20">Tap 11 (TX: 39 dBmV, RX: 20 dBmV)</option>
-      <option value="8" data-tx="38" data-rx="16">Tap 8 (TX: 38 dBmV, RX: 16 dBmV)</option>
-      <option value="8" data-tx="38" data-rx="16">Tap 8 (TX: 38 dBmV, RX: 16 dBmV)</option>
-    </select>
-
+    
+    <!-- Botão para alternar entre modo TAP e Manual -->
+    <button id="toggleModeButton">Usar Modo Manual</button>
+    
+    <!-- Seção para seleção de TAP (modo padrão) -->
+    <div id="tapSection">
+      <label for="tap">Selecione o Tap:</label>
+      <select id="tap">
+        <option value="23" data-tx="40" data-rx="19">Tap 23 (TX: 40 dBmV, RX: 19 dBmV)</option>
+        <option value="20" data-tx="39" data-rx="20">Tap 20 (TX: 39 dBmV, RX: 20 dBmV)</option>
+        <option value="17" data-tx="38" data-rx="16">Tap 17 (TX: 38 dBmV, RX: 16 dBmV)</option>
+        <option value="14" data-tx="40" data-rx="19">Tap 14  (TX: 40 dBmV, RX: 19 dBmV)</option>
+        <option value="11" data-tx="39" data-rx="20">Tap 11 (TX: 39 dBmV, RX: 20 dBmV)</option>
+        <option value="8" data-tx="38" data-rx="16">Tap 8 (TX: 38 dBmV, RX: 16 dBmV)</option>
+        <option value="8" data-tx="38" data-rx="16">Tap 8 (TX: 38 dBmV, RX: 16 dBmV)</option>
+      </select>
+    </div>
+    
+    <!-- Seção para input manual de TX e RX (inicialmente oculta) -->
+    <div id="manualSection" style="display: none;">
+      <label for="tx_manual">TX Manual (dBmV):</label>
+      <input type="number" id="tx_manual" placeholder="Ex: 40">
+      <label for="rx_manual">RX Manual (dBmV):</label>
+      <input type="number" id="rx_manual" placeholder="Ex: 20">
+    </div>
+    
     <label for="frequencia">Frequência (MHz):</label>
     <input type="number" id="frequencia" placeholder="Ex: 50" min="5" max="999">
     <p id="erro-frequencia" style="color: red; display: none;">
@@ -69,16 +81,6 @@
           <input type="checkbox" value="dsv4" class="componente"> DSV4 (Divisor: +7 dB TX, -7 dB RX)
         </label>
       </div>
-      <div>
-        <label>
-          <input type="checkbox" value="dsv3" class="componente"> DSV3 (Divisor: +5 dB TX, -5 dB RX)
-        </label>
-      </div>
-      <div>
-        <label>
-          <input type="checkbox" value="dsv2" class="componente"> DSV2 (Divisor: +3.5 dB TX, -3.5 dB RX)
-        </label>
-      </div>
     </div>
 
     <button id="btnCalcular">Calcular</button>
@@ -88,12 +90,10 @@
       <p id="txFinal"></p>
       <p id="rxFinal"></p>
       <div id="detalhes"></div>
-      <!-- Área para a animação -->
       <div id="animation"></div>
     </div>
   </div>
 
   <script src="js/script.js"></script>
 </body>
-
 </html>
