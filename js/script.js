@@ -90,7 +90,7 @@ const calcularPerdas = () => {
   // Cálculo da perda do cabo (dB/m) multiplicada pelo comprimento
   const perdaPorMetro = calcularPerdaCabo(frequencia, tipoCabo);
   const perdaCabo = cabos * perdaPorMetro;
-  detalhesArray.push(`Perda do Cabo: ${perdaCabo.toFixed(2)} dB (${cabos} m x ${perdaPorMetro.toFixed(3)} dB/m)`);
+  detalhesArray.push(`Perda Total do Cabo (${cabos}m @ ${frequencia}MHz): ${perdaCabo.toFixed(2)} dB (${perdaPorMetro.toFixed(3)} dB/m x ${cabos}m)`);
   
   // Aplicação da perda do cabo conforme a faixa de frequência
   if (frequencia >= 5 && frequencia <= 85) {
@@ -150,6 +150,11 @@ const calcularPerdas = () => {
   document.getElementById("resultado").style.display = "block";
   document.getElementById("txFinal").textContent = `TX Final: ${tx.toFixed(2)} dBmV`;
   document.getElementById("rxFinal").textContent = `RX Final: ${rx.toFixed(2)} dBmV`;
+  
+  // Adiciona o cálculo final aos detalhes
+  detalhesArray.push(`Cálculo Final TX: ${tx.toFixed(2)} dBmV`);
+  detalhesArray.push(`Cálculo Final RX: ${rx.toFixed(2)} dBmV`);
+  
   document.getElementById("detalhes").innerHTML = `<strong>Detalhes do Cálculo:</strong><ul>${detalhesArray.map(item => `<li>${item}</li>`).join('')}</ul>`;
   
   // Define a animação com base na verificação das faixas válidas
@@ -168,7 +173,7 @@ const calcularPerdas = () => {
 // Função que calcula a atenuação por metro (dB/m) para o cabo com base na frequência e tipo de cabo
 const calcularPerdaCabo = (frequencia, tipoCabo) => {
   const atenuacao = {
-    "rg6": {
+    rg6: {
       5: 1.9,
       55: 5.25,
       85: 6.4,
@@ -178,7 +183,7 @@ const calcularPerdaCabo = (frequencia, tipoCabo) => {
       750: 18.54,
       1000: 21.49
     },
-    "rg11": {
+    rg11: {
       5: 1.25,
       55: 3.15,
       85: 3.87,
@@ -187,77 +192,15 @@ const calcularPerdaCabo = (frequencia, tipoCabo) => {
       500: 9.51,
       750: 11.97,
       1000: 14.27
-    },
-    "500-piii": {
-      5: 0.52,
-      50: 1.71,
-      110: 2.49,
-      220: 3.64,
-      300: 4.30,
-      450: 5.35,
-      550: 5.97,
-      750: 7.12,
-      1000: 8.27
-    },
-    "540-qr": {
-      5: 0.46,
-      50: 1.44,
-      110: 2.26,
-      220: 3.22,
-      300: 3.74,
-      450: 4.63,
-      550: 5.18,
-      750: 6.10,
-      1000: 7.12
-    },
-    "625-piii": {
-      5: 0.43,
-      50: 1.44,
-      110: 2.17,
-      220: 3.08,
-      300: 3.61,
-      450: 4.43,
-      550: 4.92,
-      750: 5.84,
-      1000: 6.79
-    },
-    "750-piii": {
-      5: 0.36,
-      50: 1.15,
-      110: 1.71,
-      220: 2.49,
-      300: 2.95,
-      450: 3.67,
-      550: 4.07,
-      750: 5.02,
-      1000: 5.84
-    },
-    "860-qr": {
-      5: 0.30,
-      50: 1.02,
-      110: 1.51,
-      220: 2.13,
-      300: 2.49,
-      450: 3.12,
-      550: 3.48,
-      750: 4.07,
-      1000: 4.72
     }
   };
   
-  if (!atenuacao[tipoCabo]) {
-    console.error("Tipo de cabo não encontrado:", tipoCabo);
-    return 0;
-  }
-
   const freqArray = Object.keys(atenuacao[tipoCabo]).map(Number).sort((a, b) => a - b);
   let freqMaisProxima = freqArray[0];
-  
   for (const f of freqArray) {
     if (Math.abs(f - frequencia) < Math.abs(freqMaisProxima - frequencia)) {
       freqMaisProxima = f;
     }
   }
-  
   return atenuacao[tipoCabo][freqMaisProxima] / 100;
 };

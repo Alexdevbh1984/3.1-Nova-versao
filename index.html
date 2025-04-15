@@ -48,12 +48,11 @@
     <select id="tipo-cabo">
       <option value="rg6">RG-6</option>
       <option value="rg11">RG-11</option>
-      <option value="500-piii">.500 PIII</option>
-      <option value="540-qr">.540 QR</option>
-      <option value="625-piii">.625 PIII</option>
-      <option value="750-piii">.750 PIII</option>
-      <option value="860-qr">.860 QR</option>
     </select>
+
+    <label for="dbSlider">Ajuste de dB:</label>
+    <input type="range" id="dbSlider" min="0" max="100" value="0" step="1">
+    <span id="dbValue">0 dB</span>
 
     <label>Componentes:</label>
     <div class="componentes">
@@ -91,12 +90,6 @@
           <input type="checkbox" value="dsv2" class="componente"> DSV2 (Divisor: +3.5 dB TX, -3.5 dB RX)
         </label>
       </div>
-    </div>
-
-    <label for="dbSlider">Selecione o valor máximo de dB:</label>
-    <div class="slider-container">
-      <input type="range" id="dbSlider" min="0" max="100" value="50" class="slider">
-      <span id="dbValue">50 dB</span>
     </div>
 
     <button id="btnCalcular">Calcular</button>
